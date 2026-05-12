@@ -34,24 +34,25 @@ playBtn.addEventListener('click', () => {
 track.addEventListener('timeupdate', () => {
     let tiempoActual = track.currentTime;
 
-    // 1. Lógica de las letras
+    // Buscamos la frase actual
     let frase = infoCancion.find((item, index) => {
         let siguiente = infoCancion[index + 1];
+        // Si el tiempo actual es mayor al de la frase Y (no hay siguiente O es menor al de la siguiente)
         return tiempoActual >= item.seg && (!siguiente || tiempoActual < siguiente.seg);
     });
 
     if (frase) {
         if (lyricsDisplay.innerText !== frase.text) {
+            // Cambiamos el texto directamente sin el delay del setTimeout 
+            // para evitar que se quede en blanco ni un milisegundo
             lyricsDisplay.innerText = frase.text;
-            // Quitamos el opacity momentáneamente si parpadea mucho
             lyricsDisplay.style.opacity = 1; 
         }
     }
 
-    // 2. CORTE FINAL (Dale 4 segundos de gracia después de la última frase)
-    if (tiempoActual >= 124) { 
+    // CORTE FINAL: Detenemos la música un poco después del último mensaje
+    if (tiempoActual >= 125) { 
         track.pause();
-        // No lo regreses al segundo 90 inmediatamente para que se pueda leer el final
         playBtn.innerText = "REPLAY";
     }
 });
