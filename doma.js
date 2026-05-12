@@ -13,8 +13,7 @@ const infoCancion = [
     { seg: 110.60, text: "debo buscar dentro" },
     { seg: 113.50, text: "de tanto desperfecto" },
     { seg: 115.80, text: "la moraleja de este cuento" },
-    { seg: 118.80, text: "debo domar tu corazón" },
-    { seg: 120.00, text: "Gracias por cantar, bañate por favor"}
+    { seg: 118.80, text: "debo domar tu corazón" }
 ];
 
 playBtn.addEventListener('click', () => {
@@ -34,24 +33,29 @@ playBtn.addEventListener('click', () => {
 track.addEventListener('timeupdate', () => {
     let tiempoActual = track.currentTime;
 
-    // Buscamos la frase actual
-    let frase = infoCancion.find((item, index) => {
+    // 1. Buscamos la frase actual en el arreglo
+    let fraseEncontrada = infoCancion.find((item, index) => {
         let siguiente = infoCancion[index + 1];
-        // Si el tiempo actual es mayor al de la frase Y (no hay siguiente O es menor al de la siguiente)
         return tiempoActual >= item.seg && (!siguiente || tiempoActual < siguiente.seg);
     });
 
-    if (frase) {
-        if (lyricsDisplay.innerText !== frase.text) {
-            // Cambiamos el texto directamente sin el delay del setTimeout 
-            // para evitar que se quede en blanco ni un milisegundo
-            lyricsDisplay.innerText = frase.text;
-            lyricsDisplay.style.opacity = 1; 
-        }
+    // 2. Solo actualizamos si realmente hay una frase nueva y no es la que ya está puesta
+    if (fraseEncontrada && lyricsDisplay.innerText !== fraseEncontrada.text) {
+        // Quitamos cualquier animación rara y ponemos el texto de golpe
+        lyricsDisplay.style.transition = "none"; 
+        lyricsDisplay.innerText = fraseEncontrada.text;
+        lyricsDisplay.style.opacity = 1;
     }
 
-    // CORTE FINAL: Detenemos la música un poco después del último mensaje
-    if (tiempoActual >= 125) { 
+    // 3. CORTE FINAL Y SEGURIDAD
+    // Si pasamos de los 120 segundos, forzamos que se quede el mensaje final
+    if (tiempoActual >= 120.00) {
+        lyricsDisplay.innerText = "Gracias por cantar, bañate por favor";
+        lyricsDisplay.style.opacity = 1;
+    }
+
+    // Detenemos la música un poco después para que dé tiempo de leer
+    if (tiempoActual >= 125.00) {
         track.pause();
         playBtn.innerText = "REPLAY";
     }
