@@ -1,0 +1,85 @@
+body {
+    background-color: #050505;
+    color: #fff;
+    font-family: 'Helvetica', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-container {
+    text-align: center;
+    width: 90%;
+}
+
+.logo {
+    font-family: 'Times New Roman', serif;
+    font-size: 3.5rem;
+    color: #ffb3d9;
+    margin-bottom: 40px;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.lyrics-wrapper {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lyrics {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: lowercase; /* Estilo estético de TikTok */
+    text-align: center;
+    transition: opacity 0.3s ease-in-out;
+    
+    /* EFECTO DE COLOR ANIMADO */
+    background: linear-gradient(90deg, #ff75c3, #ffa647, #ff75c3);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: brillo 3s linear infinite;
+}
+
+@keyframes brillo {
+    to { background-position: 200% center; }
+}
+
+button {
+    background: transparent;
+    border: 1px solid #555;
+    color: #888;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+button:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+/* Esto ajusta el diseño para pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+    .logo {
+        font-size: 2rem; /* Título más pequeño */
+        margin-bottom: 20px;
+    }
+
+    #lyrics {
+        font-size: 1.8rem; /* Letras del karaoke más pequeñas para que quepan */
+        padding: 0 10px;
+    }
+
+    .lyrics-wrapper {
+        height: 150px; /* Menos espacio para que no haya que hacer scroll */
+    }
+}
