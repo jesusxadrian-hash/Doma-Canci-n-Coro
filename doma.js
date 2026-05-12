@@ -34,7 +34,7 @@ playBtn.addEventListener('click', () => {
 track.addEventListener('timeupdate', () => {
     let tiempoActual = track.currentTime;
 
-    // 1. Buscamos la frase
+    // 1. Lógica de las letras
     let frase = infoCancion.find((item, index) => {
         let siguiente = infoCancion[index + 1];
         return tiempoActual >= item.seg && (!siguiente || tiempoActual < siguiente.seg);
@@ -42,19 +42,16 @@ track.addEventListener('timeupdate', () => {
 
     if (frase) {
         if (lyricsDisplay.innerText !== frase.text) {
-            lyricsDisplay.style.opacity = 0; 
-            setTimeout(() => {
-                lyricsDisplay.innerText = frase.text;
-                lyricsDisplay.style.opacity = 1;
-            }, 200);
+            lyricsDisplay.innerText = frase.text;
+            // Quitamos el opacity momentáneamente si parpadea mucho
+            lyricsDisplay.style.opacity = 1; 
         }
     }
 
-    // 2. CORTE AUTOMÁTICO: Si llega al final del coro, se detiene
-    if (tiempoActual >= 130) { // Ajusta este número según dónde quieras que corte
+    // 2. CORTE FINAL (Dale 4 segundos de gracia después de la última frase)
+    if (tiempoActual >= 124) { 
         track.pause();
-        track.currentTime = 90; // Lo regresa al inicio del coro
+        // No lo regreses al segundo 90 inmediatamente para que se pueda leer el final
         playBtn.innerText = "REPLAY";
-        
     }
 });
