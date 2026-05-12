@@ -2,7 +2,7 @@ const track = document.getElementById('track');
 const lyricsDisplay = document.getElementById('lyrics');
 const playBtn = document.getElementById('playBtn');
 
-// TIEMPOS RELATIVOS AL CORO (Ajustados al 1:30 que me dijiste)
+// Tiempos exactos de tu imagen
 const infoCancion = [
     { seg: 90.00, text: "misterio de mujeeeer" }, 
     { seg: 93.80, text: "solo será cuestión de tiempo" }, 
@@ -13,12 +13,13 @@ const infoCancion = [
     { seg: 110.60, text: "debo buscar dentro" },
     { seg: 113.50, text: "de tanto desperfecto" },
     { seg: 115.80, text: "la moraleja de este cuento" },
-    { seg: 118.80, text: "debo domar tu corazón" }
+    { seg: 118.80, text: "debo domar tu corazón" },
+    { seg: 122.00, text: "Gracias por cantar, bañate por favor" }
 ];
 
 playBtn.addEventListener('click', () => {
     if (track.paused) {
-        // Si es la primera vez que damos play, saltamos al coro (segundo 90)
+        // Salto automático al coro
         if (track.currentTime < 90) {
             track.currentTime = 90;
         }
@@ -31,31 +32,24 @@ playBtn.addEventListener('click', () => {
 });
 
 track.addEventListener('timeupdate', () => {
-    let tiempoActual = track.currentTime;
+    const tiempoActual = track.currentTime;
 
-    // 1. Buscamos la frase actual en el arreglo
-    let fraseEncontrada = infoCancion.find((item, index) => {
-        let siguiente = infoCancion[index + 1];
-        return tiempoActual >= item.seg && (!siguiente || tiempoActual < siguiente.seg);
-    });
-
-    // 2. Solo actualizamos si realmente hay una frase nueva y no es la que ya está puesta
-    if (fraseEncontrada && lyricsDisplay.innerText !== fraseEncontrada.text) {
-        // Quitamos cualquier animación rara y ponemos el texto de golpe
-        lyricsDisplay.style.transition = "none"; 
-        lyricsDisplay.innerText = fraseEncontrada.text;
-        lyricsDisplay.style.opacity = 1;
+    // Buscamos la frase que corresponde al tiempo actual
+    let fraseActual = "";
+    for (let i = 0; i < infoCancion.length; i++) {
+        if (tiempoActual >= infoCancion[i].seg) {
+            fraseActual = infoCancion[i].text;
+        }
     }
 
-    // 3. CORTE FINAL Y SEGURIDAD
-    // Si pasamos de los 120 segundos, forzamos que se quede el mensaje final
-    if (tiempoActual >= 120.00) {
-        lyricsDisplay.innerText = "Gracias por cantar, bañate por favor";
-        lyricsDisplay.style.opacity = 1;
+    // CRÍTICO: Solo actualiza si la frase es distinta a la que ya se ve.
+    // Esto elimina el parpadeo al 100%.
+    if (fraseActual !== "" && lyricsDisplay.innerText !== fraseActual) {
+        lyricsDisplay.innerText = fraseActual;
     }
 
-    // Detenemos la música un poco después para que dé tiempo de leer
-    if (tiempoActual >= 125.00) {
+    // Corte final para que no siga sonando el resto de la canción
+    if (tiempoActual >= 127) { 
         track.pause();
         playBtn.innerText = "REPLAY";
     }
