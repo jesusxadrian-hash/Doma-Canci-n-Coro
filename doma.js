@@ -14,7 +14,7 @@ const infoCancion = [
     { seg: 113.50, text: "de tanto desperfecto" },
     { seg: 115.80, text: "la moraleja de este cuento" },
     { seg: 118.80, text: "debo domar tu corazón" },
-    { seg: 124.00, text: "Gracias por cantar, bañate por favor" }
+    { seg: 125.00, text: "Gracias por cantar, bañate por favor" }
 ];
 
 playBtn.addEventListener('click', () => {
