@@ -14,7 +14,7 @@ const infoCancion = [
     { seg: 113.50, text: "de tanto desperfecto" },
     { seg: 115.80, text: "la moraleja de este cuento" },
     { seg: 118.80, text: "debo domar tu corazón" },
-    { seg: 122.50, text: "Gracias por cantar, bañate por favor" }
+    { seg: 125.00, text: "Gracias por cantar, bañate por favor" }
 ];
 
 playBtn.addEventListener('click', () => {
@@ -49,7 +49,7 @@ track.addEventListener('timeupdate', () => {
     }
 
     // Corte final para que no siga sonando el resto de la canción
-    if (tiempoActual >= 128) { 
+    if (tiempoActual >= 130) { 
         track.pause();
         playBtn.innerText = "REPLAY";
     }
