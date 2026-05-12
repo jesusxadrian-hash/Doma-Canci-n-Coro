@@ -18,9 +18,17 @@ const infoCancion = [
 ];
 
 playBtn.addEventListener('click', () => {
+    // Si el botón dice REPLAY, reseteamos el tiempo al coro y tocamos
+    if (playBtn.innerText === "REPLAY") {
+        track.currentTime = 90;
+        track.play();
+        playBtn.innerText = "PAUSA";
+        return; // Salimos de la función para que no ejecute lo de abajo
+    }
+
+    // Lógica normal de Play/Pausa
     if (track.paused) {
-        // Salto automático al coro
-        if (track.currentTime < 90) {
+        if (track.currentTime < 90 || track.currentTime >= 125) {
             track.currentTime = 90;
         }
         track.play();
